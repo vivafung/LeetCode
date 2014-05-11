@@ -1,0 +1,145 @@
+//First Approach
+//Two pointers 
+//Time complexity O(strlen(S) * strlen(T))   
+//Space complexity O(1)
+class Solution {
+public:
+    char *strStr(char *haystack, char *needle) 
+
+{
+    std::string s1(haystack);
+    std::string s2(needle);
+    
+    if
+
+(s2.empty())
+      {return haystack;}
+    
+    int a = s1.length();
+    
+
+int b = s2.length();
+    
+    if(a < b)
+      {return NULL;}
+      
+    
+
+for(int i = 0; i < a - b; i++)
+      {
+          int j = 0;
+          
+
+int k = i;
+          while(j < b && s2[j] == s1[k])
+            {
+       
+
+         k++;
+                j++;
+            }
+          if(j == b)
+    
+
+        {return char* s1[i];}
+      }
+      else 
+        return NULL;
+   
+
+ 
+    }
+};
+
+
+//KMP 
+//Time complexity O(strlen(S) + strlen(T))  
+//Space complexity O(strlen(T))
+//KMP algorithm with time complexity O(strlen(s)+strlen(m))
+int main()
+{
+    char* string_1 = "ABCDABCDABDE";
+    char* string_2 = "ABD";
+    char* string_3 = "YUEIE";
+    
+    int pos_1 = kmp(string_1, string_2);
+    cout << "position is" << pos_1 << endl;
+    cout << "With starter as" << string_1[pos_1]<< endl;
+    int pos_2 = kmp(string_1, string_3);
+    cout << "position is" << pos_2 << endl;
+    cout << "With starter as" << string_1[pos_2]<< endl;
+    
+    system("pause");
+    return 0;
+}
+
+int kmp(const char* strStr, char* strMatch)
+{
+    if(strlen(strMatch) == 0 && strMatch == NULL)
+      {return -1;}
+    
+    vector<int> vstr;
+    CalMatchPart();
+    int len_1 = strlen(strStr);
+    int len_2 = strlen(strMatch);
+    int nMatch = 0         //number of matched letter
+    char a = strMatch[0];  
+    int npos = 0;             //started position for repetition
+    
+    for(int i = 0; i<len_1;++i)
+    {
+        if(a == strStr[i])        //start to compare the string when the first character is the same
+        {
+            nMatch++;
+            for(int j=i,k=0;j<len_1 && k<len_2;++j,++k)
+            {
+                if(strStr[j] == strMatch[k] && k+1 == len_2)
+                {npos = i;}
+                else
+                {i = i + vstr[nMatch];}
+            }
+        }
+        else
+        {nMatch = 0;}
+    }
+    return npos;
+}
+
+void CalMatchPart(char* strMatch, vector<int> &vstr)
+{
+  if(strlen(strMatch) == 0 && strMatch == NULL)
+  {return -1;}
+  
+  int len = strlen(strMatch);
+  char* strTemp = new char[CAPACITY];
+  char* strbegin = new char[CAPACITY];
+  char* strend = new char[CAPACITY];
+  
+  for(int i=0;i<len;++i)
+  {
+      int count = 0;
+      memset(strTemp,'\0',CAPACITY);
+      memcpy(strTemp,strMatch,CAPACITY);
+      if(strlen(strTemp) == 1)
+        {vstr.push_back(count);}
+      else
+      for(int j=0;j<i;++j)
+      {
+          memset(strbegin,'\0',i+1);
+          memset(strend,'\0',i+1);
+          memcpy(strbegin,strTemp+j,j+1);
+          memcpy(strend,strTemp+(i-j),j+1);
+          
+          if(strcmp(strbegin,strend) == 0)
+          {count = strlen(strbegin);}
+      }
+      vstr.push_back(count);
+  }
+  
+  
+  
+  delete[] strTemp;
+  delete[] strbegin;
+  delete[] strend;
+
+}
