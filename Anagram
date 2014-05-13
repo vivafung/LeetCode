@@ -1,0 +1,57 @@
+class Solution 
+{
+//number of strings: n, the length of strings: k
+//Time complexity: O(nklogk) where O(klogk) is sorting for each string
+//Space complexity: O(nk) in which the size of hashmap
+public:
+    vector<string> anagrams(vector<string> &strs) 
+    {
+        map<string, vector<string>> hash;
+        int len = strs.size();
+        vector<string> vst = new vst(CAPACITY);; 
+        
+        for(int i = 0; i < len; ++i)
+            {
+                string a(strs[i]);
+                sort(strs.begin(), strs.end());
+                hash.insert(std::pair<strs[i], vst>);
+            }
+        
+        for (auto it:hash)  
+    {  
+        if (it->next.size() > 1)  
+            vst.insert(vst.end(),it->next.begin(), it->next.end());  
+    }  
+    return vst;  
+    }
+};
+
+
+//Check whether two strings are anagrams c++
+bool anagram(string s1,string s2)
+{
+    int len_1 = strlen(s1);
+    int len_2 = strlen(s2);
+    if(len_1 != len_2)
+    {cout<<"\nThey are not anagrams ! " << endl;
+    return 0;
+    }
+    
+    //Approach1 to sort the string
+    std::sort(s1.begin(),s1.end());
+    std::sort(s2.begin(),s2.end());
+    
+    return s1==s2;
+    
+    //Approach2 to compare each letter in order within two strings
+    int m = 0;
+    for(int i = 0; i < len_1; i++)
+        for(int j = 0; j < len_2; j++)
+            {
+                if(s1[i] == s2[j])
+                    c++;
+            }
+    when(c == len_1)
+    cout<<"yes ! anagram !! "<<endl;
+    return 0;
+}
