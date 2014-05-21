@@ -1,0 +1,49 @@
+Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+
+For example:
+Given "25525511135",
+
+return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
+
+
+
+class Solution {
+public:
+    vector<string> restoreIpAddresses(string s) {
+        vector<string> vec;
+        int n = s.length();
+        if(n < 4 || n > 12)
+        {return vec;}
+        //start recursion
+        partitionIP(s, "", vec, 0);   
+        return vec;   
+    }
+    
+    void partitionIP(string s, string temp, vector<string> a, int count)
+    {
+        
+        for(int i = 0; i < 4 && i < s.length(); i++)
+        {
+            string pre = s.substr(0,i);
+            if(isValid(pre))
+            {
+                partitionIP(s.substr(i), temp + pre + '.', a, count+1);
+            }
+        }
+        
+        //Reach the last block of IP
+        if(count == 3 && (isValid(s)))
+        {
+            a.push_back(temp + s);
+            return;
+        }
+    }
+    
+    bool isValid(string s)
+    {
+        int value = atoi(s.c_str());
+        //int a = atoi(str);
+        if(value > 255 || value < 0)
+        {return false;}
+    }
+};
