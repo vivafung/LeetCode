@@ -10,3 +10,46 @@ For example,
 Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
 
 The number of ways decoding "12" is 2.
+
+//check every two digits in the string. If there are numbers between 1 and 26, then mark it
+// n marked place means there are two ways to decode under this number combination, 2^n ways to decode for the string
+
+class Solution {
+public:
+    int count;
+    int numDecodings(string s) {
+        int n = s.length();
+        //when the string is empty
+        if(n == 0)
+        {return 0;}
+        //when the string only has one digit
+        if(n == 1 && s[0] == '0')
+        {return 0;}
+        if(n == 1 && s[0] != '0')
+        {return 1;}
+        count = 0;
+        dfs(s);
+        return count;
+        
+    }
+    
+    //everytime choose the two digits in order
+    void dfs(string s)
+    {
+        if (s.length()==0) count++;  
+        for(int i = 0; i <= 1 && i < s.length(); i++)
+        { 
+            if(isValid(s.substr(0,i+1)))
+            {dfs(s.substr(i+1));}
+        }
+    }
+    
+    
+    bool isValid(string s)
+    {
+        if(s.length() == 0)
+        {return false;}
+        int num = atoi(s.c_str());
+        return num > 1 && num < 26;
+    }
+};
