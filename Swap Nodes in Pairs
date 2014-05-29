@@ -34,7 +34,7 @@ public:
             
             //shift pre
             if(pre != NULL)
-            {ptr->next = nptr;}
+            {pre->next = nptr;}
             pre = ptr;
             
             //when reach the last node
