@@ -6,31 +6,50 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
     ListNode *swapPairs(ListNode *head) {  
-    if(head == NULL) return NULL;   
-    if(head->next == NULL) return head;   
-    
-    ListNode *ptr = head;
-    ListNode *nptr = head->next;
-    ListNode *temp;
-    
-    while(nptr->next == NULL && ptr->next == NULL)
-    {
-        temp = nptr->next;
-        nptr->next = ptr;
-        ptr->next = temp;
-        ptr = ptr->next;
+        ListNode *ptr, *nptr, *pre=NULL;
         
-    
-        if(nptr->next == NULL)
+        if(head == NULL || head->next == NULL) 
+        {return head;}
+        
+        ptr = head;
+        nptr = head->next;
+        head = nptr;
+        
+        while(nptr != NULL)
         {
+            //swap the node
+            ptr->next = nptr->next;
             nptr->next = ptr;
-            ptr->next = nptr;
-            break;
+            
+            //shift pre
+            if(pre != NULL)
+            {ptr->next = nptr;}
+            pre = ptr;
+            
+            //when reach the last node
+            if(ptr->next == NULL)
+            {break;}
+            //when only one node left
+            else if(ptr->next->next == NULL)
+            {break;}
+            //shift ptr and nptr in one step ahead
+            else 
+            {
+                ptr = ptr->next;
+                nptr = ptr->next;
+            }
         }
-    }
-    return head;
+        return head;
     } 
 };
