@@ -1,0 +1,63 @@
+Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+
+//solution 1. DP, segment k lists into two parts and recuisivly merge. 
+//Time complexity is T(k) = 2T(k/2) + O(nk), O(nklogk)
+//space complexity is the size of the recursive stack. O(logk)
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *mergeKLists(vector<ListNode *> &lists) 
+    {
+        int n = lists.size();
+        if(lists.size()==0)
+        {return NULL;}
+        
+        return connector(lists, 0, n-1);
+    }
+    
+    ListNode* connector(vector<ListNode *> &lists, int l, int r)
+    {
+        if(l<r)
+        {
+            int m = (l+r)/2;
+            return merge2(connector(lists, 1, m),connector(lists, m+1, r));
+        }
+        return lists[l];
+    }
+    
+    ListNode *merge2(ListNode* l1, ListNode* l2) 
+    {
+        ListNode *head = new ListNode(0);
+        ListNode *ptr = head;
+        while(l1 && l2)
+        {
+            if(l1->val <= l2->val)
+            {
+                ptr->next = l1;
+                l1 = l1->next;
+                ptr=ptr->next;
+            }
+            else
+            {
+                ptr->next = l2;
+                l2 = l2->next;
+                ptr = ptr->next;
+            }
+            ptr = ptr->next;
+            if(l1)
+            {ptr->next=l1;}
+            if(l2)
+            {ptr->next=l2;}
+        }
+        return ptr->next;
+    }
+    
+};
