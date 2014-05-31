@@ -1,0 +1,62 @@
+Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+For example, given s = "aab",
+Return
+
+  [
+    ["aa","b"],
+    ["a","a","b"]
+  ]
+  
+class Solution {
+public:
+    vector<vector<string>> partition(string s) 
+    {
+        //create new data structure
+        vector<vector<string>> result = new vector<vector<string>>();
+        vector<string> temp = new vector<string>(0);
+        
+        if(s==NULL || s.length()==0)
+        {return result;}
+        callResult(result,temp,str);
+        return result;
+    }
+    
+    bool isPalindrome(string str)
+    {
+        int i = 0;
+        int j = str.length() - 1;
+        while(i < j)
+        {
+            if(str[i] != str[j])
+            {return false;}
+            i++;
+            j--;
+        }
+        return true;
+    }
+    
+    void callResult(vector<vector<string>> &result, vector<string> &temp, string str)
+    {
+        if(str == NULL || str.length() == 0)
+        {return new vector<vector<string>>(temp);}
+            
+        int n = str.length();
+        //extract the first i part of strings
+        for(int i = 0; i<n; i++)
+        {
+            
+            //if substr is panlindrome, then keep calling the results
+            string a = str.substr(0,i);
+            if(isPalindrome(a))
+            {
+                //push the string to the result
+                temp.push_back(a);
+                callResult(result, temp, str.substr(i));
+            }
+            //if it is not panlindrome, ahead i to lengthen the string until reach the end of string
+        }
+    }
+};
