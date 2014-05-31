@@ -61,3 +61,67 @@ public:
     }
     
 };
+
+
+//solutin 2. create a heap 
+//Time complexity nlg(k) coz there are n of lenth in lists and k lists, the pop and push take O(lgk)
+//Space complexity is O(k), which is the size of heap
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+    
+private:
+struct cmp
+{
+    bool operator ()(const ListNode *a, const ListNode *b)
+    {return a->val > b->val;}
+};
+
+public:
+    ListNode *mergeKLists(vector<ListNode *> &lists) 
+    {
+        //boundary check
+        int n = lists.size();
+        if(n == 0)
+        {return NULL;}
+        else if(n ==1)
+        {return lists[0];}
+        
+        //define the pointer and heap
+        
+        ListNode* head = new ListNode(0);
+        ListNode* ptr(NULL);
+        priority_queue<ListNode*, vector<ListNode *>, cmp>  heap;
+        
+        //push every first element of k list into heap
+        for(int i = 0; i < n; ++i)
+        {
+            if(lists[i] != NULL)
+            {
+                heap.push(lists[i]);
+                lists[i] = lists[i]->next;
+            }
+        }
+        //pop the min value of heap
+        while(!heap.empty())
+        {
+            ListNode* nptr = heap.top();
+            //nptr is the min of heap, pop it out
+            heap.pop();
+            head->next = nptr;
+            head = nptr;
+            
+            //insert new node to heap of the next node of the popped node
+            if(head->next)
+            {heap.push(nptr->next);}
+        }
+        return head->next;
+    }
+};
