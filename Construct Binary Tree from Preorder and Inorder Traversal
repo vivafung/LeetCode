@@ -7,11 +7,21 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+ /**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
     TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) 
     {
-        if(preorder == NULL || inorder == NULL)
+        if(preorder.size() == 0 || inorder.size() == 0)
         {return NULL;}
         
         TreeNode *root = buildTreeRecursive(preorder, inorder, 0, preorder.size()-1, 0, inorder.size()-1);
@@ -25,7 +35,7 @@ public:
         
         TreeNode *root = new TreeNode(preorder[preS]);
         
-        if(preS=preE|| inS=inE)
+        if(preS==preE || inS==inE)
         return root;
         
         int index;
@@ -38,8 +48,8 @@ public:
         }
         
         int n = index-inS;
-        root->left = buildTreeRecursive(preorder, inorder, int preS+1, int preS+n, int inS, int inE-1);
-        root->right = buildTreeRecursive(preorder, inorder, int preE-n+1, int preE, int index+1, int inE);
+        root->left = buildTreeRecursive(preorder, inorder, preS+1, preS+n, inS, inE-1);
+        root->right = buildTreeRecursive(preorder, inorder, preS+n+1, preE, index+1, inE);
         
         return root;
     }
