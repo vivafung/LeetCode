@@ -34,3 +34,37 @@ public:
     
     }
 };
+
+=======================================================
+class Solution {
+public:
+    vector<vector<int> > permute(vector<int> &num) 
+    {
+       vector<int> mediRes;  
+       vector<vector<int> > res;  
+       perm(num, mediRes, res);  
+       return res;  
+    }
+    
+    void perm(vector<int> &num, vector<int> &medi, vector<vector<int> > &result) 
+    {
+        int n=num.size();
+        if(n==1)
+        {
+            medi.push_back(num[0]);
+            result.push_back(medi);
+            medi.pop_back();
+            return;
+        }
+        
+        for(int i=0; i<n; i++)
+        {
+            medi.push_back(num[0]);
+            vector<int> remainer = num;
+            remainer.erase(num.begin()+i);
+            perm(remainer, medi, result);
+            medi.pop_back();
+        }
+        return;
+    }
+};
