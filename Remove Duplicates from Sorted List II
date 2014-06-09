@@ -13,9 +13,20 @@ Given 1->1->1->2->3, return 2->3.
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
-    ListNode *deleteDuplicates(ListNode *head) {
+    ListNode *deleteDuplicates(ListNode *head) 
+    {
         if(head == NULL || head->next == NULL)
         {return head;}
         
@@ -26,15 +37,21 @@ public:
         ListNode *nptr = head;
         
         //use nptr to compare the value, and ptr to store the node
-        while(nptr != NULL){
-            if(nptr->val == nptr->next->val && nptr->next != NULL)
+        while(nptr != NULL)
         {
-            ptr->next = nptr->next;}
-            
-            nptr = nptr->next;
-            ptr = nptr;
-       
-        return head == NULL? temp:head;
+            //with duplication
+            if(nptr->val == nptr->next->val && nptr->next != NULL)
+            {
+                nptr = nptr->next->next;
+            }
+            //without duplication
+            else
+            {
+                ptr->next = nptr;
+                nptr = nptr->next;
+                ptr=nptr;
+            }
         }
+        return head == NULL? temp:head;
     }
 };
